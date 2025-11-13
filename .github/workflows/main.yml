@@ -1,51 +1,57 @@
-name: Deploy Templatized Data Environment
+name: Snowflake Git Fetch
 
 on:
+  workflow_dispatch:  # se puede ejecutar manualmente desde Actions
   push:
-    branches: [staging, main]
-  pull_request:
-    types: [closed]
-    branches: [staging, main]
+    branches: [main, staging]
 
 jobs:
-  deploy_data_environment:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+  fetch_snowflake_repo:
     runs-on: ubuntu-latest
 
     env:
       SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
       SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
       SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+      SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+      SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+      SNOWFLAKE_DATABASE: COURSE_REPO
+      SNOWFLAKE_SCHEMA: PUBLIC
 
     steps:
+      # 1️⃣ Descargar los archivos del repositorio (aunque solo haya un README)
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Instalar Snowflake CLI
       - name: Install Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v1.5
         with:
           cli-version: "latest"
 
-      - name: Configure Snowflake connection
+      # 3️⃣ Crear el archivo de configuración temporal para la conexión
+      - name: Create Snowflake config file
         run: |
-          snow connection add github_action_conn \
-            --account ${{ env.SNOWFLAKE_ACCOUNT }} \
-            --user ${{ env.SNOWFLAKE_USER }} \
-            --password ${{ env.SNOWFLAKE_PASSWORD }} \
-            --role ACCOUNTADMIN \
-            --warehouse COMPUTE_WH \
-            --database COURSE_REPO \
-            --schema PUBLIC \
-            --default
+          mkdir -p ~/.snowflake
+          cat > ~/.snowflake/config.toml <<EOF
+          [connections.default]
+          account = "${{ env.SNOWFLAKE_ACCOUNT }}"
+          user = "${{ env.SNOWFLAKE_USER }}"
+          password = "${{ env.SNOWFLAKE_PASSWORD }}"
+          role = "${{ env.SNOWFLAKE_ROLE }}"
+          warehouse = "${{ env.SNOWFLAKE_WAREHOUSE }}"
+          database = "${{ env.SNOWFLAKE_DATABASE }}"
+          schema = "${{ env.SNOWFLAKE_SCHEMA }}"
+          EOF
+          chmod 600 ~/.snowflake/config.toml
 
-          snow connection test github_action_conn
+      # 4️⃣ Probar conexión
+      - name: Test Snowflake connection
+        run: snow connection test
 
-      - name: Fetch latest changes
-        run: snow git fetch course_repo.public.advanced_data_engineering_snowflake
-
-      - name: Deploy templates
+      # 5️⃣ Ejecutar fetch del repo de Snowflake
+      - name: Fetch Snowflake repo contents
         run: |
-          snow git execute @advanced_data_engineering_snowflake/branches/${GITHUB_REF_NAME}/module-1/hamburg_weather/pipeline/data/ \
-          -D "env='${{ env.DEPLOY_ENV }}'" \
-          --database=COURSE_REPO \
-          --schema=PUBLIC
+          snow git fetch course_repo.public.advanced_data_engineering_snowflake
+          echo "✅ Fetch completado. Archivos en workspace:"
+          ls -la
