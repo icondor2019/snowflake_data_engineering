@@ -1,0 +1,19 @@
+name: USER_24_PUBLIC__22snowflake_data_engineering_22
+version: 1.0.0
+config-version: 2
+profile: USER_24_PUBLIC__22snowflake_data_engineering_22
+model-paths:
+  - models
+analysis-paths:
+  - analyses
+test-paths:
+  - tests
+seed-paths:
+  - seeds
+macro-paths:
+  - macros
+snapshot-paths:
+  - snapshots
+models:
+  USER_24_PUBLIC__22snowflake_data_engineering_22:
+    +materialized: view
