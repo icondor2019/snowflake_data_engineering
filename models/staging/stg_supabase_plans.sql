@@ -1,11 +1,17 @@
-{{ config(materialized="table") }}
+{{ config(materialized="view") }}
 
 WITH source_data as (
     SELECT
-        supabase_user_uuid,
-        telegram_id,
-        name,
-        created_at
-    FROM AIRBYTE.SUPABASE.PLANS
+      uuid,
+      created_at,
+      last_modified_at,
+      client_id,
+      daily_kcal,
+      daily_proteine,
+      daily_carbohydrates,
+      status,
+      daily_fiber,
+      user_uuid,
+    FROM DBT_PROJECT.AIRBYTE.PLANS
 )
 SELECT * FROM source_data
