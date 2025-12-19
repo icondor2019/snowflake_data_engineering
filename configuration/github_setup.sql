@@ -36,4 +36,4 @@ CREATE OR REPLACE API INTEGRATION oauth_github
   ;
 
 -- Drop a git REPOSITORY
-DROP GIT REPOSITORY dbt_project.public.dbt_project_demo;
+-- DROP GIT REPOSITORY dbt_project.public.dbt_project_demo;
