@@ -19,9 +19,9 @@ jobs:
 
     env:
       # Read connection secret. Need to follow this patter: SNOWFLAKE_CONNECTIONS_<CONNECTION_NAME>_<PARAM>
-      SNOWFLAKE_CONNECTIONS_SNOWFLAKE_DATA_ENGINEERING_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-      SNOWFLAKE_CONNECTIONS_SNOWFLAKE_DATA_ENGINEERING_USER: ${{ secrets.SNOWFLAKE_USER }}
-      SNOWFLAKE_CONNECTIONS_SNOWFLAKE_DATA_ENGINEERING_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+      SNOWFLAKE_CONNECTIONS_DBT_PROJECT_DEMO_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_CONNECTIONS_DBT_PROJECT_DEMO_USER: ${{ secrets.SNOWFLAKE_USER }}
+      SNOWFLAKE_CONNECTIONS_DBT_PROJECT_DEMO_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
     steps:
       # Checkout step is necessary to access repository files
@@ -54,6 +54,4 @@ jobs:
 
       # Fetch latest changes from the repository to Snowflake
       - name: Fetch latest changes to Snowflake
-        run: snow git fetch \
-          --connection snowflake_data_engineering \
-          dbt_project.public.dbt_project_demo
+        run: snow git fetch dbt_project.public.dbt_project_demo
