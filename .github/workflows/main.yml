@@ -54,4 +54,4 @@ jobs:
 
       # Fetch latest changes from the repository to Snowflake
       - name: Fetch latest changes to Snowflake
-        run: snow git fetch course_repo.public.snowflake_data_engineering
+        run: snow git fetch dbt_project.public.dbt_project_demo
