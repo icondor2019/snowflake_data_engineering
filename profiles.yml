@@ -6,4 +6,10 @@ USER_24_PUBLIC__22snowflake_data_engineering_22:
       role: ACCOUNTADMIN
       warehouse: COMPUTE_WH
       database: DBT_PROJECT
-      schema: PUBLIC
+      schema: DEV_MODELED
+    prod:
+      type: snowflake
+      role: ACCOUNTADMIN
+      warehouse: COMPUTE_WH
+      database: DBT_PROJECT
+      schema: PROD_MODELED
