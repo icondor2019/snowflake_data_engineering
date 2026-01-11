@@ -28,4 +28,4 @@ with source_data as (
     {% endif %}
 )
 
-select * from source_data;
+select * from source_data
