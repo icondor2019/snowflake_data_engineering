@@ -1,4 +1,4 @@
-USER_24_PUBLIC__22snowflake_data_engineering_22:
+snowflake_profile:
   target: dev
   outputs:
     dev:
