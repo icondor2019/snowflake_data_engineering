@@ -1,7 +1,7 @@
-name: USER_24_PUBLIC__22snowflake_data_engineering_22
+name: snowflake_profile
 version: 1.0.0
 config-version: 2
-profile: USER_24_PUBLIC__22snowflake_data_engineering_22
+profile: snowflake_profile
 model-paths:
   - models
 analysis-paths:
@@ -15,5 +15,5 @@ macro-paths:
 snapshot-paths:
   - snapshots
 models:
-  USER_24_PUBLIC__22snowflake_data_engineering_22:
+  snowflake_profile:
     +materialized: view
