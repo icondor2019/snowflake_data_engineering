@@ -16,3 +16,13 @@ create or replace task DBT_PROJECT.PROD_MODELED.FIRST_DBT_TASK
 	warehouse=COMPUTE_WH
 	schedule='USING CRON 1 10 * * * America/Bogota'
 	as EXECUTE dbt project PROD_PIPELINE args='run --target prod';
+
+-- All taks need activation after creation
+ALTER TASK DBT_PROJECT.PROD_MODELED.FIRST_DBT_TASK RESUME;
+
+-- To suspend task EXECUTION
+ALTER TASK DBT_PROJECT.PROD_MODELED.FIRST_DBT_TASK SUSPEND;
+
+-- show created tasks in a database
+show tasks in database dbt_project;
+
