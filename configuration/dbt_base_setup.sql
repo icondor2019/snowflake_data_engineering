@@ -3,9 +3,9 @@ USE DATABASE dbt_project;
 
 -- -------------------- SCHEMAS -------------------------------------------------
 -- need to create base schemas for DEV & PROD
-CREATE SCHEMA DEV_MODELED;
+CREATE SCHEMA DEV;
 
-CREATE SCHEMA PROD_MODELED;
+CREATE SCHEMA PROD;
 
 show schemas;
 

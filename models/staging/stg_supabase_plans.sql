@@ -1,5 +1,3 @@
-{{ config(materialized="view") }}
-
 WITH source_data as (
     SELECT
       uuid,
