@@ -1,6 +1,3 @@
-{{ config(materialized="table") }}
-
-
 WITH source_data as (
     SELECT
         supabase_user_uuid,

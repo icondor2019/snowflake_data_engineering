@@ -1,7 +1,7 @@
-name: snowflake_profile
+name: principal_project
 version: 1.0.0
 config-version: 2
-profile: snowflake_profile
+profile: dbt_profile
 model-paths:
   - models
 analysis-paths:
@@ -15,5 +15,18 @@ macro-paths:
 snapshot-paths:
   - snapshots
 models:
-  snowflake_profile:
-    +materialized: view
+  principal_project:
+    staging:
+      +materialized: view
+      +schema: staging
+    modeled:
+      +materialized: table
+      +schema: modeled
+    incremental:
+      +materialized: table
+      +schema: incremental
+    intermediate:
+      +materialized: table
+      +schema: intermediate
+
+

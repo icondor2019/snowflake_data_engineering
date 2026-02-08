@@ -1,4 +1,4 @@
-snowflake_profile:
+dbt_profile:
   target: dev
   outputs:
     dev:
@@ -6,10 +6,12 @@ snowflake_profile:
       role: ACCOUNTADMIN
       warehouse: COMPUTE_WH
       database: DBT_PROJECT
-      schema: DEV_MODELED
+      schema: DEV
+      threads: 4
     prod:
       type: snowflake
       role: ACCOUNTADMIN
       warehouse: COMPUTE_WH
       database: DBT_PROJECT
-      schema: PROD_MODELED
+      schema: PROD
+      threads: 8
