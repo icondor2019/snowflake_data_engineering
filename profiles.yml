@@ -3,15 +3,15 @@ dbt_profile:
   outputs:
     dev:
       type: snowflake
-      role: ACCOUNTADMIN
-      warehouse: COMPUTE_WH
-      database: DBT_PROJECT
+      role: TRANSFORMER
+      warehouse: DBT_WH
+      database: ANALYTICS
       schema: DEV
       threads: 4
     prod:
       type: snowflake
-      role: ACCOUNTADMIN
-      warehouse: COMPUTE_WH
-      database: DBT_PROJECT
+      role: TRANSFORMER
+      warehouse: DBT_WH
+      database: ANALYTICS
       schema: PROD
-      threads: 8
+      threads: 6

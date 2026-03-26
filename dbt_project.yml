@@ -19,14 +19,34 @@ models:
     staging:
       +materialized: view
       +schema: staging
+      cold_stage:
+        +tags:
+          - cold
     modeled:
       +materialized: table
       +schema: modeled
-    incremental:
-      +materialized: table
-      +schema: incremental
+      cold_stage:
+        +tags:
+          - cold
     intermediate:
       +materialized: table
       +schema: intermediate
+      cold_stage:
+        +tags:
+          - cold
+    incremental:
+      +materialized: table
+      +schema: incremental
+      +tags:
+        - incremental
+      cold_stage:
+        +tags:
+          - cold
+    bi:
+      +materialized: view
+      +schema: bi
+      cold_stage:
+        +tags:
+          - cold
 
 
