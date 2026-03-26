@@ -1,0 +1,29 @@
+------------------------------------------------------
+-- 1. CREATE ROLE AND WAREHOUSE (as ACCOUNTADMIN)
+------------------------------------------------------
+CREATE ROLE IF NOT EXISTS TRANSFORMER
+    COMMENT = 'Role for dbt transformations';
+
+GRANT ROLE TRANSFORMER TO ROLE SYSADMIN;
+
+CREATE WAREHOUSE IF NOT EXISTS DBT_WH
+    WAREHOUSE_SIZE = 'X-SMALL'
+    AUTO_SUSPEND = 60
+    AUTO_RESUME = TRUE
+    COMMENT = 'Warehouse for dbt transformations';
+
+GRANT USAGE, OPERATE ON WAREHOUSE DBT_WH TO ROLE TRANSFORMER;
+GRANT EXECUTE TASK ON ACCOUNT TO ROLE TRANSFORMER;
+GRANT EXECUTE MANAGED TASK ON ACCOUNT TO ROLE TRANSFORMER;
+
+------------------------------------------------------
+-- 2. SWITCH TO TRANSFORMER AND CREATE OBJECTS
+------------------------------------------------------
+USE ROLE TRANSFORMER;
+USE WAREHOUSE DBT_WH;
+
+CREATE DATABASE IF NOT EXISTS ANALYTICS
+    COMMENT = 'Database for dbt analytics project';
+
+CREATE SCHEMA IF NOT EXISTS ANALYTICS.DEV;
+CREATE SCHEMA IF NOT EXISTS ANALYTICS.PROD;
